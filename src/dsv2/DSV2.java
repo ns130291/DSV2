@@ -5,6 +5,7 @@
  */
 package dsv2;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,14 +32,26 @@ public class DSV2 {
         System.out.println("Distanz: " + dis); 
         
         
-        Vector[] x = new Vector[]{new Vector(new double[]{9, 0 ,1}), new Vector(new double[]{6, 2, 1}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{1, 0 ,2})};
-        Vector[] a = new Vector[]{new Vector(new double[]{9, 1, 1}), new Vector(new double[]{8, 1, 0}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{4, 3, 1}), new Vector(new double[]{3, 2, 0}), new Vector(new double[]{2, 0, 1})};
+        Vector[] a = new Vector[]{new Vector(new double[]{9, 0 ,1}), new Vector(new double[]{6, 2, 1}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{1, 0 ,2})};
+        Vector[] x = new Vector[]{new Vector(new double[]{9, 1, 1}), new Vector(new double[]{8, 1, 0}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{4, 3, 1}), new Vector(new double[]{3, 2, 0}), new Vector(new double[]{2, 0, 1})};
         
         Viterbi viterbi = new Viterbi(new EuclideanDistance2());
         try {
-            viterbi.calc(x, a);
+            viterbi.calc(a, x);
         } catch (Exception ex) {
             Logger.getLogger(DSV2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String path = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten.txt";
+        
+        Input i = new Input();
+        ArrayList<Vector[]> references =  i.fromFile(path);
+        
+        for(Vector[] xx:references){
+            for(Vector xxx:xx){
+                System.out.println(xxx);
+            }
+            System.out.println("");
         }
     }
 

@@ -33,5 +33,19 @@ public class Vector {
     public int getSize() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        String out = "(";
+        for(int i = 0; i < size; i++){
+            out += values[i];
+            if(i != size - 1){
+                out += ", ";
+            }
+        }
+        out += ")";
+        return out;
+    }
+    
     
 }

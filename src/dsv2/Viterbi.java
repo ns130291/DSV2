@@ -14,19 +14,19 @@ public class Viterbi {
         this.d = d;
     }    
     
-    public void calc(Vector[] x, Vector[] a) throws Exception{
-        double[][] s = new double[a.length][x.length];
-        int[][] r = new int[a.length][x.length];
+    public void calc(Vector[] a, Vector[] x) throws Exception{
+        double[][] s = new double[x.length][a.length];
+        int[][] r = new int[x.length][a.length];
         
         //---Erste Spalte---
-        s[0][0] = d.calcDistance(x[0], a[0]);
-        for(int j = 1; j < x.length; j++){
+        s[0][0] = d.calcDistance(a[0], x[0]);
+        for(int j = 1; j < a.length; j++){
             s[0][j] = Double.POSITIVE_INFINITY;
         }
         
         //---Iteriere über Spalten---
-        for(int i = 1; i < a.length; i++){
-            for(int j = 0; j < x.length; j++){
+        for(int i = 1; i < x.length; i++){
+            for(int j = 0; j < a.length; j++){
                 // k=0
                 double distance = s[i-1][j];
                 int k = 0;
@@ -46,14 +46,14 @@ public class Viterbi {
                 }
                 
                 r[i][j] = k;
-                s[i][j] = distance + d.calcDistance(a[i], x[j]);
+                s[i][j] = distance + d.calcDistance(x[i], a[j]);
             }
         }
         
         //---Rückwärtszeiger verfolgen---
-        Point[] p = new Point[a.length];
-        int j = x.length - 1;
-        for(int i = a.length - 1; i >= 0; i--){
+        Point[] p = new Point[x.length];
+        int j = a.length - 1;
+        for(int i = x.length - 1; i >= 0; i--){
             p[i] = new Point(i, j);
             j -= r[i][j];
         }
@@ -65,8 +65,8 @@ public class Viterbi {
         System.out.println("");
         
         //todo: Überprüfung ob n-1 m-1 Knoten Minimum ist??? Vermutlich nicht, man nimmt einfach den n-1 m-1 Knoten?
-        for (j = x.length - 1; j >= 0; j--) {
-            for (int i = 0; i < a.length; i++) {
+        for (j = a.length - 1; j >= 0; j--) {
+            for (int i = 0; i < x.length; i++) {
                 System.out.print(s[i][j] + " ");
             }
             System.out.println("");
