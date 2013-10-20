@@ -13,10 +13,10 @@ package dsv2;
 public class EuclideanDistance2 implements Distance{
 
     @Override
-    public double calcDistance(Vector v1, Vector v2) throws Exception {
+    public double calcDistance(Vector v1, Vector v2) throws RuntimeException {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(v1.getSize() != v2.getSize()){
-            throw new Exception("Vectors have different sizes");
+            throw new RuntimeException("Vectors have different sizes");
         }else{
             double[] values1 = v1.getValues();
             double[] values2 = v2.getValues();

@@ -24,23 +24,19 @@ public class DSV2 {
         
         Distance d = new EuclideanDistance2();
         double dis = -1;
-        try {
-            dis = d.calcDistance(eins, zwei);
-        } catch (Exception ex) {
-            Logger.getLogger(DSV2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+        dis = d.calcDistance(eins, zwei);
+        
         System.out.println("Distanz: " + dis); 
+        System.out.println("");
         
         
         Vector[] a = new Vector[]{new Vector(new double[]{9, 0 ,1}), new Vector(new double[]{6, 2, 1}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{1, 0 ,2})};
         Vector[] x = new Vector[]{new Vector(new double[]{9, 1, 1}), new Vector(new double[]{8, 1, 0}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{4, 3, 1}), new Vector(new double[]{3, 2, 0}), new Vector(new double[]{2, 0, 1})};
         
         Viterbi viterbi = new Viterbi(new EuclideanDistance2());
-        try {
-            viterbi.calc(a, x);
-        } catch (Exception ex) {
-            Logger.getLogger(DSV2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+        viterbi.calc(a, x);
         
         String path = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten.txt";
         
@@ -53,6 +49,9 @@ public class DSV2 {
             }
             System.out.println("");
         }
+        
+        ViterbiTraining viterbiTraining = new ViterbiTraining();
+        viterbiTraining.train(references);
     }
 
 }
