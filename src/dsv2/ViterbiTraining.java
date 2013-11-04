@@ -31,9 +31,9 @@ public class ViterbiTraining {
         ArrayList<Point[]> points = new ArrayList<>();
         for (Vector[] reference : references) {
             Point[] p = new Point[reference.length];
-            double factor = (double) (modelLength - 1) / (double) (reference.length - 1);
+            double slope = (double) (modelLength - 1) / (double) (reference.length - 1);
             for (int i = 0; i < reference.length; i++) {
-                p[i] = new Point(i, (int) Math.round(factor * i));
+                p[i] = new Point(i, (int) Math.round(slope * i));
             }
             points.add(p);
 
@@ -57,18 +57,23 @@ public class ViterbiTraining {
         System.out.println("Model");
         for (int i = 0; i < modelLength; i++) {
             model[i].divide(avg[i]);
-            System.out.println(model[i] + "  avg " + avg[i]);
+            System.out.println(model[i] + "  Anzahl Komponenten " + avg[i]);
         }
 
-        System.out.println("\nIterieren\n");
+        System.out.println("\nIterieren\n=============");
         
         double sum = Double.POSITIVE_INFINITY;
         double newSum = Double.MAX_VALUE;
+        int i = 1;
         while(sum > newSum){
             sum = newSum;
+            System.out.println("Schritt " + i);
+            System.out.println("------------");
+            i++;
             VectorsDouble vd = iterate(model, references);
             model = vd.getVectors();
             newSum = vd.getDouble();
+            System.out.println("");
         }
 
     }
@@ -83,12 +88,17 @@ public class ViterbiTraining {
             PointsDouble pd = viterbi.calc(model, reference);
             points.add(pd.getPoints());
             sum += pd.getDouble();
+            
+            
             //print matching
-            /*System.out.println("a x");
-             for (int i = 0; i < p.length; i++) {
-             System.out.println(p[i].x + " " + p[i].y);
-             }
-             System.out.println("");*/
+            Point[] p = pd.getPoints();
+            System.out.println("Viterbi Punkte");
+            for(int i = 0; i < p.length; i++){
+                System.out.println(p[i].x + " " + p[i].y);
+            }
+            Util.drawDiagram(p);
+            System.out.println("Summe " + Util.r2d(pd.getDouble()) + "\n");
+            
         }
 
         model = new Vector[model.length];
@@ -103,9 +113,9 @@ public class ViterbiTraining {
         System.out.println("Model");
         for (int i = 0; i < model.length; i++) {
             model[i].divide(avg[i]);
-            System.out.println(model[i] + "  avg " + avg[i]);
+            System.out.println(model[i] + "  Anzahl Komponenten " + avg[i]);
         }
-        System.out.println("Sum " + sum + "\n");
+        System.out.println("Sum " + Util.r2d(sum) + "\n");
 
         return new VectorsDouble(model, sum);
     }

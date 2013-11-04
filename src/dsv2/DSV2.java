@@ -5,6 +5,7 @@
  */
 package dsv2;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +36,17 @@ public class DSV2 {
         Vector[] x = new Vector[]{new Vector(new double[]{9, 1, 1}), new Vector(new double[]{8, 1, 0}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{4, 3, 1}), new Vector(new double[]{3, 2, 0}), new Vector(new double[]{2, 0, 1})};
         
         Viterbi viterbi = new Viterbi(new EuclideanDistance2());
-            
-        viterbi.calc(a, x);
+        PointsDouble matching = viterbi.calc(a, x);
+        
+        System.out.println("Zuordnung");
+        for(Point p1:matching.getPoints()){
+            System.out.println(p1.x + " " + p1.y);
+        }
+        System.out.println("");
+        
+        
+        //Aufgabe 2
+        System.out.println("Aufgabe 2");
         
         String path = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten.txt";
         

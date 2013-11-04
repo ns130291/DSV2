@@ -38,7 +38,7 @@ public class Vector {
     public String toString() {
         String out = "(";
         for (int i = 0; i < size; i++) {
-            out += values[i];
+            out += Util.r2d(values[i]);
             if (i != size - 1) {
                 out += ", ";
             }

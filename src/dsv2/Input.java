@@ -18,10 +18,9 @@ public class Input {
         try {
             br = new BufferedReader(new FileReader(path));
             
-            String temp = br.readLine();
-            int vectorSize = Integer.parseInt(temp);
+            br.readLine();  
             
-            temp = br.readLine();
+            String temp = br.readLine();
             int numReferences = Integer.parseInt(temp);
             
             br.readLine();
