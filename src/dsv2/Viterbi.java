@@ -14,19 +14,19 @@ public class Viterbi {
         this.d = d;
     }    
     
-    public PointsDouble calc(Vector[] model, Vector[] x){
-        double[][] s = new double[x.length][model.length];
-        int[][] r = new int[x.length][model.length];
+    public PointsDouble calc(Vector[] x, Vector[] mu, Vector[] sigma2){
+        double[][] s = new double[x.length][mu.length];
+        int[][] r = new int[x.length][mu.length];
         
         //---Erste Spalte---
-        s[0][0] = d.calcDistance(model[0], x[0]);
-        for(int j = 1; j < model.length; j++){
+        s[0][0] = d.calcDistance(mu[0], x[0], null);
+        for(int j = 1; j < mu.length; j++){
             s[0][j] = Double.POSITIVE_INFINITY;
         }
         
         //---Iteriere über Spalten---
         for(int i = 1; i < x.length; i++){
-            for(int j = 0; j < model.length; j++){
+            for(int j = 0; j < mu.length; j++){
                 // k=0
                 double distance = s[i-1][j];
                 int k = 0;
@@ -46,13 +46,13 @@ public class Viterbi {
                 }
                 
                 r[i][j] = k;
-                s[i][j] = distance + d.calcDistance(x[i], model[j]);
+                s[i][j] = distance + d.calcDistance(x[i], mu[j], null);
             }
         }
         
         //---Rückwärtszeiger verfolgen---
         Point[] p = new Point[x.length];
-        int j = model.length - 1;
+        int j = mu.length - 1;
         for(int i = x.length - 1; i >= 0; i--){
             p[i] = new Point(i, j);
             j -= r[i][j];
@@ -72,6 +72,6 @@ public class Viterbi {
             System.out.println("");
         }*/
         
-        return new PointsDouble(p, s[x.length - 1][model.length - 1]);
+        return new PointsDouble(p, s[x.length - 1][mu.length - 1]);
     }
 }

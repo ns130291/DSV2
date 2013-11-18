@@ -26,9 +26,9 @@ public class DSV2 {
         Distance d = new EuclideanDistance2();
         double dis = -1;
             
-        dis = d.calcDistance(eins, zwei);
+        dis = d.calcDistance(eins, zwei, null);
         
-        System.out.println("Distanz: " + dis); 
+        //System.out.println("Distanz: " + dis); 
         System.out.println("");
         
         
@@ -36,13 +36,13 @@ public class DSV2 {
         Vector[] x = new Vector[]{new Vector(new double[]{9, 1, 1}), new Vector(new double[]{8, 1, 0}), new Vector(new double[]{4, 2, 1}), new Vector(new double[]{4, 3, 1}), new Vector(new double[]{3, 2, 0}), new Vector(new double[]{2, 0, 1})};
         
         Viterbi viterbi = new Viterbi(new EuclideanDistance2());
-        PointsDouble matching = viterbi.calc(a, x);
+        PointsDouble matching = viterbi.calc(x, a, null);
         
-        System.out.println("Zuordnung");
+        /*System.out.println("Zuordnung");
         for(Point p1:matching.getPoints()){
             System.out.println(p1.x + " " + p1.y);
         }
-        System.out.println("");
+        System.out.println("");*/
         
         
         //Aufgabe 2
@@ -62,6 +62,8 @@ public class DSV2 {
         
         ViterbiTraining viterbiTraining = new ViterbiTraining();
         viterbiTraining.train(references);
+        
+        Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }
 
 }

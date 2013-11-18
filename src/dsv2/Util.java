@@ -13,6 +13,11 @@ import java.awt.Point;
  */
 public class Util {
 
+    /**
+     * Rounds doubles to two decimal points
+     * @param in double value to round
+     * @return rounded double value
+     */
     public static double r2d(double in) {
         return Math.round(in * 100) / 100.0;
     }
@@ -42,7 +47,6 @@ public class Util {
                 if (points[i - 1].y == points[i].y) {
                     lines[points[i].y] += "-";
                 } else {
-                    System.out.println("x1 " + points[i].y + " x2 " + points[i - 1].y + " = " + (points[i].y - points[i - 1].y));
                     if (points[i].y - points[i - 1].y == 2) {
                         leerzeichen = points[i].x * 2 - 1;
                         for (int j = 0; j < leerzeichen; j++) {
@@ -69,10 +73,50 @@ public class Util {
             System.out.print("-");
         }
         System.out.println("x");
-        System.out.print(" |");        
+        System.out.print(" |");
         for (int i = 0; i < points.length; i++) {
             System.out.print(i + " ");
         }
         System.out.println("");
+    }
+
+    public static void muSigma(double[] values) {
+        double sum = 0;
+        double sumquad = 0;
+        for (int i = 0; i < values.length; i++) {
+            sum += values[i];
+            sumquad += values[i] * values[i];
+        }
+
+        double mu = sum / values.length;
+        double varianz = sumquad / values.length - mu * mu;
+        System.out.println("Müüühh = " + mu + " Sigma = " + varianz);
+    }
+    
+    public static Vector arithmeticMean(Vector[] model){
+        Vector mu = new Vector(new double[]{0, 0, 0});
+        for(Vector m:model){
+            mu = Vector.add(mu, m);
+        }
+        mu.divide(model.length);        
+        return mu;
+    }
+    
+    public static Vector variance(Vector[] model, Vector mu){
+        Vector sigma = new Vector(new double[]{0, 0, 0});
+        for(Vector m:model){
+            sigma = Vector.add(sigma, Vector.multiply(m, m));
+        }
+        sigma.divide(model.length);
+        sigma = Vector.subtract(sigma, Vector.multiply(mu, mu));
+        //TODO wenn kleiner 0,01 auf 0,01 setzen
+        double[] vals = sigma.getValues();
+        for(int i = 0; i < vals.length; i++){
+            if(vals[i] < 0.01){
+                vals[i] = 0.01;
+            }
+        }
+        sigma.setValues(vals);
+        return sigma;
     }
 }

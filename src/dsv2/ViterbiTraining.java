@@ -16,7 +16,6 @@ public class ViterbiTraining {
             lengths[i] = references.get(i).length;
         }
 
-        //lengths = new int[]{6, 7};
         //TODO: min length of array == 1
         Arrays.sort(lengths);
         int median;
@@ -42,30 +41,55 @@ public class ViterbiTraining {
             for (int i = 0; i < p.length; i++) {
                 System.out.println(p[i].x + " " + p[i].y);
             }
+            Util.drawDiagram(p);
             System.out.println("");
         }
 
+        ArrayList<ArrayList<Vector>> models = new ArrayList<>(modelLength);
+        for (int i = 0; i < modelLength; i++) {
+            models.add(new ArrayList<Vector>());
+        }
+        //ArrayList<ArrayList<Vector>> muis = new ArrayList<>(modelLength);
+        //ArrayList<ArrayList<Vector>> sigmais = new ArrayList<>(modelLength);
+
+        //Sammeln der jeweiligen Zuordnungen
         Vector[] model = new Vector[modelLength];
         int[] avg = new int[modelLength];
         for (int i = 0; i < references.size(); i++) {
             for (Point matching : points.get(i)) {
                 avg[matching.y]++;
                 model[matching.y] = Vector.add(model[matching.y], references.get(i)[matching.x]);
+                models.get(matching.y).add(references.get(i)[matching.x]);
             }
         }
 
-        System.out.println("Model");
+        System.out.println("##Neue Methode");
+        Vector[] mus = new Vector[modelLength];
+        Vector[] sigmas = new Vector[modelLength];
+        for (int i = 0; i < models.size(); i++) {
+            Vector mu = Util.arithmeticMean(models.get(i).toArray(new Vector[models.get(i).size()]));
+            System.out.println(mu);
+            Vector sigma = Util.variance(models.get(i).toArray(new Vector[models.get(i).size()]), mu);
+            System.out.println(sigma);
+            System.out.println("");
+            mus[i] = mu;
+            sigmas[i] = sigma;
+        }
+        System.out.println("##Neue Methode ende");
+
+        System.out.println("Mu");
         for (int i = 0; i < modelLength; i++) {
             model[i].divide(avg[i]);
             System.out.println(model[i] + "  Anzahl Komponenten " + avg[i]);
         }
+        model = mus;
 
         System.out.println("\nIterieren\n=============");
-        
+
         double sum = Double.POSITIVE_INFINITY;
         double newSum = Double.MAX_VALUE;
         int i = 1;
-        while(sum > newSum){
+        while (sum > newSum) {
             sum = newSum;
             System.out.println("Schritt " + i);
             System.out.println("------------");
@@ -85,20 +109,19 @@ public class ViterbiTraining {
         double sum = 0;
         ArrayList<Point[]> points = new ArrayList<>();
         for (Vector[] reference : references) {
-            PointsDouble pd = viterbi.calc(model, reference);
+            PointsDouble pd = viterbi.calc(reference, model, null);
             points.add(pd.getPoints());
             sum += pd.getDouble();
-            
-            
+
             //print matching
             Point[] p = pd.getPoints();
             System.out.println("Viterbi Punkte");
-            for(int i = 0; i < p.length; i++){
+            for (int i = 0; i < p.length; i++) {
                 System.out.println(p[i].x + " " + p[i].y);
             }
             Util.drawDiagram(p);
             System.out.println("Summe " + Util.r2d(pd.getDouble()) + "\n");
-            
+
         }
 
         model = new Vector[model.length];

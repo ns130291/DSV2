@@ -22,11 +22,11 @@ public class Vector {
         return values;
     }
 
-    public void setValues(double[] values) throws Exception {
+    public void setValues(double[] values) throws RuntimeException {
         if (size == values.length) {
             this.values = values;
         } else {
-            throw new Exception("Wrong array length");
+            throw new RuntimeException("Wrong array length");
         }
     }
 
@@ -81,5 +81,63 @@ public class Vector {
         for (int i = 0; i < size; i++) {
             values[i] = values[i] / divisor;
         }
+    }
+
+    public void multiply(int multiplier) {
+        for (int i = 0; i < size; i++) {
+            values[i] = values[i] * multiplier;
+        }
+    }
+    
+    public static Vector multiply(Vector v1, Vector v2) throws RuntimeException {
+        if (v1 == null && v2 == null) {
+            return null;
+        }
+        if (v1 == null) {
+            return v2;
+        }
+        if (v2 == null) {
+            return v1;
+        }
+        if (v1.getSize() != v2.getSize()) {
+            throw new RuntimeException("Vectors have different sizes");
+        } else {
+            double[] values1 = v1.getValues();
+            double[] values2 = v2.getValues();
+
+            double[] values = new double[values1.length];
+
+            for (int i = 0; i < values1.length; i++) {
+                values[i] = values1[i] * values2[i];
+            }
+
+            return new Vector(values);
+        }        
+    }
+    
+    public static Vector subtract(Vector v1, Vector v2) throws RuntimeException {
+        if (v1 == null && v2 == null) {
+            return null;
+        }
+        if (v1 == null) {
+            return v2;
+        }
+        if (v2 == null) {
+            return v1;
+        }
+        if (v1.getSize() != v2.getSize()) {
+            throw new RuntimeException("Vectors have different sizes");
+        } else {
+            double[] values1 = v1.getValues();
+            double[] values2 = v2.getValues();
+
+            double[] values = new double[values1.length];
+
+            for (int i = 0; i < values1.length; i++) {
+                values[i] = values1[i] - values2[i];
+            }
+
+            return new Vector(values);
+        }        
     }
 }

@@ -10,28 +10,21 @@ package dsv2;
  *
  * @author ns130291
  */
-public class EuclideanDistance2 implements Distance{
+public class MahalanobisDistance implements Distance{
 
-    /**
-     * 
-     * @param x 
-     * @param mu µ(Mittelwert) des Modells 
-     * @param sigma2 
-     * @return
-     * @throws RuntimeException 
-     */
     @Override
     public double calcDistance(Vector x, Vector mu, Vector sigma2) throws RuntimeException {
-        if(x.getSize() != mu.getSize()){
+        if(x.getSize() != mu.getSize() && x.getSize() != sigma2.getSize()){
             throw new RuntimeException("Vectors have different sizes");
         }else{
             double[] xs = x.getValues();
             double[] mus = mu.getValues();
+            double[] sigmas2 = sigma2.getValues();
             
             double distance = 0;
             
             for(int i = 0; i < xs.length; i++){
-                distance += Math.pow(xs[i]-mus[i], 2);
+                distance += Math.pow(xs[i]-mus[i], 2) / sigmas2[i];
             }
             return distance;
         }
