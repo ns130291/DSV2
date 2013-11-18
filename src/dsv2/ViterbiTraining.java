@@ -76,7 +76,7 @@ public class ViterbiTraining {
         double sum = Double.POSITIVE_INFINITY;
         double newSum = Double.MAX_VALUE;
         int i = 1;
-        while (sum > newSum) {
+        while (sum - newSum != 0) {
             sum = newSum;
             System.out.println("Schritt " + i);
             System.out.println("------------");
@@ -92,7 +92,7 @@ public class ViterbiTraining {
 
     private VectorsDouble iterate(Vector[] mus, Vector[] sigmas, ArrayList<Vector[]> references) {
 
-        Viterbi viterbi = new Viterbi(new EuclideanDistance2());
+        Viterbi viterbi = new Viterbi(new SimplifiedNormalDistributionDistance());
 
         double sum = 0;
         ArrayList<Point[]> points = new ArrayList<>();

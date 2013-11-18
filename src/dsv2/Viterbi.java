@@ -19,7 +19,7 @@ public class Viterbi {
         int[][] r = new int[x.length][mu.length];
         
         //---Erste Spalte---
-        s[0][0] = d.calcDistance(mu[0], x[0], null);
+        s[0][0] = d.calcDistance(mu[0], x[0], sigma2[0]);
         for(int j = 1; j < mu.length; j++){
             s[0][j] = Double.POSITIVE_INFINITY;
         }
@@ -46,7 +46,7 @@ public class Viterbi {
                 }
                 
                 r[i][j] = k;
-                s[i][j] = distance + d.calcDistance(x[i], mu[j], null);
+                s[i][j] = distance + d.calcDistance(x[i], mu[j], sigma2[j]);
             }
         }
         
