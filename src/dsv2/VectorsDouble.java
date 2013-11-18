@@ -17,7 +17,7 @@ public class VectorsDouble {
 
     public VectorsDouble(Vector[] vectors1, Vector[] vectors2, double doub) {
         this.vectors1 = vectors1;
-        this.vectors1 = vectors2;
+        this.vectors2 = vectors2;
         this.doub = doub;
     }
 
@@ -26,7 +26,7 @@ public class VectorsDouble {
     }
 
     public Vector[] getVectors2() {
-        return vectors1;
+        return vectors2;
     }
 
     public double getDouble() {

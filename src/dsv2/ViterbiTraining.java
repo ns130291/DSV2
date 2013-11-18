@@ -27,7 +27,7 @@ public class ViterbiTraining {
         }
         System.out.println("Median: " + median);
         int modelLength = median;// / 2;
-        
+
         ArrayList<Point[]> points = new ArrayList<>();
         for (Vector[] reference : references) {
             Point[] p = new Point[reference.length];
@@ -39,9 +39,9 @@ public class ViterbiTraining {
 
             //print matching
             /*System.out.println("a x");
-            for (int i = 0; i < p.length; i++) {
-                System.out.println(p[i].x + " " + p[i].y);
-            }*/
+             for (int i = 0; i < p.length; i++) {
+             System.out.println(p[i].x + " " + p[i].y);
+             }*/
             Util.drawDiagram(p);
             System.out.println("");
         }
@@ -70,7 +70,7 @@ public class ViterbiTraining {
             mus[i] = mu;
             sigmas[i] = sigma;
         }
-        
+
         System.out.println("\nIterieren\n=============");
 
         double sum = Double.POSITIVE_INFINITY;
@@ -104,9 +104,9 @@ public class ViterbiTraining {
             //print matching
             Point[] p = pd.getPoints();
             /*System.out.println("Viterbi Punkte");
-            for (int i = 0; i < p.length; i++) {
-                System.out.println(p[i].x + " " + p[i].y);
-            }*/
+             for (int i = 0; i < p.length; i++) {
+             System.out.println(p[i].x + " " + p[i].y);
+             }*/
             Util.drawDiagram(p);
             System.out.println("Summe " + Util.r2d(pd.getDouble()) + "\n");
 
