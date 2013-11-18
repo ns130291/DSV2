@@ -5,10 +5,7 @@
  */
 package dsv2;
 
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +17,7 @@ public class DSV2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Vector eins = new Vector(new double[]{4, 1, -2});
+        /*Vector eins = new Vector(new double[]{4, 1, -2});
         Vector zwei = new Vector(new double[]{2, 3, -1});
         
         Distance d = new EuclideanDistance2();
@@ -63,7 +60,7 @@ public class DSV2 {
         ViterbiTraining viterbiTraining = new ViterbiTraining();
         viterbiTraining.train(references);
         
-        Util.muSigma(new double[]{2, 6, 1, 5, 7});
+        //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }
 
 }

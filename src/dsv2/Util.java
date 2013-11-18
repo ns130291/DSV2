@@ -109,7 +109,6 @@ public class Util {
         }
         sigma.divide(model.length);
         sigma = Vector.subtract(sigma, Vector.multiply(mu, mu));
-        //TODO wenn kleiner 0,01 auf 0,01 setzen
         double[] vals = sigma.getValues();
         for(int i = 0; i < vals.length; i++){
             if(vals[i] < 0.01){

@@ -11,16 +11,22 @@ package dsv2;
  * @author ns130291
  */
 public class VectorsDouble {
-    Vector[] vectors;
-    double doub;
+    private Vector[] vectors1;
+    private Vector[] vectors2;
+    private double doub;
 
-    public VectorsDouble(Vector[] vectors, double doub) {
-        this.vectors = vectors;
+    public VectorsDouble(Vector[] vectors1, Vector[] vectors2, double doub) {
+        this.vectors1 = vectors1;
+        this.vectors1 = vectors2;
         this.doub = doub;
     }
 
-    public Vector[] getVectors() {
-        return vectors;
+    public Vector[] getVectors1() {
+        return vectors1;
+    }
+
+    public Vector[] getVectors2() {
+        return vectors1;
     }
 
     public double getDouble() {
