@@ -43,7 +43,7 @@ public class DSV2 {
         
         
         //Aufgabe 2
-        System.out.println("Aufgabe 2");
+        /*System.out.println("Aufgabe 2");
         
         String path = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten.txt";
         
@@ -58,7 +58,22 @@ public class DSV2 {
         }
         
         ViterbiTraining viterbiTraining = new ViterbiTraining();
-        viterbiTraining.train(references);
+        viterbiTraining.train(references);*/
+        
+        System.out.println("Aufgabe 4");
+        
+        String path2 = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten2.txt";
+        Input i2 = new Input();
+        ArrayList<Vector[]> references2 =  i2.fromFile(path2);
+        
+        for(Vector[] xx:references2){
+            for(Vector xxx:xx){
+                System.out.println(xxx);
+            }
+            System.out.println("");
+        }
+        ViterbiTrainingHMM viterbiTraining2 = new ViterbiTrainingHMM();
+        viterbiTraining2.train(references2);
         
         //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }

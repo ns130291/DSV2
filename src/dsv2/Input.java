@@ -30,7 +30,7 @@ public class Input {
             for(int i = 0; i < numReferences; i++){
                 temp = br.readLine();
                 if(temp != null){
-                    String[] vector = temp.split("    ");
+                    String[] vector = temp.split("    ");//Anpassen falls zwischen den Vektorfolgen weniger als 4 Leerzeichen sind
                     Vector[] x = new Vector[vector.length];
                     for(int j = 0; j < vector.length; j++){
                         String[] values = vector[j].split(" ");
