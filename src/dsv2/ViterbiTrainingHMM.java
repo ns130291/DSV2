@@ -10,15 +10,15 @@ import java.util.Arrays;
  */
 public class ViterbiTrainingHMM {
 
-    public void train(ArrayList<Vector[]> references) {
+    public void train(ArrayList<Vector[]> references, int modelLength) {
         System.out.println("Viterbi Training HMM\n================");
-        int[] lengths = new int[references.size()];
+        /*int[] lengths = new int[references.size()];
         for (int i = 0; i < lengths.length; i++) {
             lengths[i] = references.get(i).length;
-        }
+        }*/
 
         //TODO: min length of array == 1
-        Arrays.sort(lengths);
+        /*Arrays.sort(lengths);
         int median;
         if (lengths.length % 2 == 1) {
             median = lengths[lengths.length / 2];
@@ -28,7 +28,7 @@ public class ViterbiTrainingHMM {
         //Aufgabenstellung sagt 4!
         median = 4;
         System.out.println("Median: " + median);
-        int modelLength = median;// / 2;
+        //int modelLength = median;// / 2;*/
 
         //Lineare Zuordnung der Merkmalvektorfolgen zu den Zuständen des Modells
         ArrayList<Point[]> points = new ArrayList<>();

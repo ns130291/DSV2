@@ -9,30 +9,10 @@ import java.util.Random;
  */
 public class HMM {
 
-    public void generate() {
-        int modelLength = 7;
-        long seed = 42;
-        Random rand = new Random();
+    public Vector[] generate(int modelLength, long seed, Vector[] mus, Vector[] sigmas) {
+        Random rand = new Random(seed);
         ArrayList<Vector> refs = new ArrayList<>();
         int zustand = 0;
-
-        Vector[] mus = {
-            new Vector(new double[]{2, 5, 3}),
-            new Vector(new double[]{1, 2, 5}),
-            new Vector(new double[]{4, 2, 3}),
-            new Vector(new double[]{1, 4, 3}),
-            new Vector(new double[]{6, 10, 10}),
-            new Vector(new double[]{8, 2, 3}),
-            new Vector(new double[]{8, 9, 3}),};
-
-        Vector[] sigmas = {
-            new Vector(new double[]{3, 10, 5}),
-            new Vector(new double[]{11, 2, 3}),
-            new Vector(new double[]{1, 1, 4}),
-            new Vector(new double[]{9, 2, 1}),
-            new Vector(new double[]{2, 1, 3}),
-            new Vector(new double[]{8, 1, 4}),
-            new Vector(new double[]{3, 3, 3}),};
 
         while (zustand < modelLength) {
 
@@ -48,6 +28,7 @@ public class HMM {
                     n *= -1;
                 }
                 ref[i] = n * Math.sqrt(sigma[i]) + mu[i];
+                //ref[i] = n * sigma[i] + mu[i];
             }
 
             refs.add(new Vector(ref));
@@ -68,5 +49,8 @@ public class HMM {
         for(Vector x:refs){
             System.out.println(x);
         }
+        System.out.println("");
+        
+        return refs.toArray(new Vector[1]);
     }
 }
