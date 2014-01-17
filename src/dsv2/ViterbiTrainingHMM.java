@@ -35,11 +35,24 @@ public class ViterbiTrainingHMM {
         int[][] uebergaenge = new int[modelLength][modelLength];
         for (Vector[] reference : references) {
             Point[] p = new Point[reference.length];
-            double slope = (double) (modelLength - 1) / (double) (reference.length - 1);
+            //double slope = (double) (modelLength - 1) / (double) (reference.length - 1);
+            double slope = (double) (modelLength) / (double) (reference.length);
+            System.out.println("Slope " + slope);
             for (int i = 0; i < reference.length; i++) {
-                p[i] = new Point(i, (int) Math.round(slope * i));
+                //int point = (int) Math.round(slope * i);
+                //int point = ((int) Math.round(slope * (i + 1))) - 1;
+                //int point = ((int) Math.round(slope * (i + 2))) - 1;
+                //int point = (int) Math.round(slope * (i + 1) - 1);
+                int point = (int) (slope * i);
+                if(point > (modelLength - 1)){
+                    point = modelLength - 1;
+                }
+                if(point < 0){
+                    point = 0;
+                }
+                p[i] = new Point(i, point);
                 if (i > 0) {
-                    //System.out.println(p[i].y + " " +p[i-1].y + " " + (p[i].y - p[i-1].y + p[i-1].y));
+                    System.out.println(p[i - 1].y + " " + (p[i].y - p[i - 1].y + p[i - 1].y));
                     uebergaenge[p[i - 1].y][p[i].y - p[i - 1].y + p[i - 1].y]++;
                 }
             }
@@ -82,7 +95,7 @@ public class ViterbiTrainingHMM {
                 }
             }
         }
-        System.out.println("\nÜbergängswahrscheinlichkeiten");
+        System.out.println("\nÜbergangswahrscheinlichkeiten");
         for (int i = 0; i < uebergangsw.length; i++) {
             for (int j = 0; j < uebergangsw[i].length; j++) {
                 System.out.print(uebergangsw[i][j] + " ");
@@ -142,6 +155,7 @@ public class ViterbiTrainingHMM {
 
         double sum = 0;
         ArrayList<Point[]> points = new ArrayList<>();
+        int[][] uebergaenge = new int[mus.length][mus.length];
         for (Vector[] reference : references) {
             PointsDouble pd = viterbi.calc(reference, mus, sigmas, uebergangsw);
             points.add(pd.getPoints());
@@ -149,19 +163,53 @@ public class ViterbiTrainingHMM {
 
             //print matching
             Point[] p = pd.getPoints();
+
+            for (int i = 1; i < reference.length; i++) {
+                //System.out.println(p[i].y + " " +p[i-1].y + " " + (p[i].y - p[i-1].y + p[i-1].y));
+                uebergaenge[p[i - 1].y][p[i].y - p[i - 1].y + p[i - 1].y]++;
+
+            }
             /*System.out.println("Viterbi Punkte");
              for (int i = 0; i < p.length; i++) {
              System.out.println(p[i].x + " " + p[i].y);
              }*/
             Util.drawDiagram(p);
-            System.out.println("Summe " + Util.r2d(pd.getDouble()) + "\n");
+            //System.out.println("Summe " + Util.r2d(pd.getDouble()) + "\n");
 
         }
 
+        System.out.println("\nÜbergänge");
+        for (int i = 0; i < uebergaenge.length; i++) {
+            for (int j = 0; j < uebergaenge[i].length; j++) {
+                System.out.print(uebergaenge[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        System.out.println("");
+        //--> Übergangswahrscheinlichkeiten darauß berechnen  
+        //TODO: Nullen durch 0.01 ersetzen
+        //TODO: Negativer Log anwenden
+        uebergangsw = new double[mus.length][mus.length];
+        for (int i = 0; i < uebergaenge.length; i++) {
+            int num = 0;
+            for (int j = 0; j < uebergaenge[i].length; j++) {
+                num += uebergaenge[i][j];
+            }
+            for (int j = 0; j < uebergaenge[i].length; j++) {
+                uebergangsw[i][j] = (double) uebergaenge[i][j] / (double) num;
+                if (uebergangsw[i][j] <= 0) {
+                    uebergangsw[i][j] = 0.01;
+                }
+                /*uebergangsw[i][j] = -1.0 * Math.log(uebergangsw[i][j]);
+                if (uebergangsw[i][j] <= 0) {
+                    uebergangsw[i][j] = 0.01;
+                }*/
+            }
+        }
         //TODO: Vermutlich noch die neuen Übergangswahrscheinlichkeiten ausrechnen
         //beim letzten Iterationsschritt muss vermutlich nicht mehr logarithmiert 
-        //werden! (Angaben können dann mit der Lösung überprüft werden
-        System.out.println("\nÜbergängswahrscheinlichkeiten");
+        //werden! (Angaben können dann mit der Lösung überprüft werden)
+        System.out.println("\nÜbergangswahrscheinlichkeiten");
         for (int i = 0; i < uebergangsw.length; i++) {
             for (int j = 0; j < uebergangsw[i].length; j++) {
                 System.out.print(uebergangsw[i][j] + " ");
@@ -170,6 +218,18 @@ public class ViterbiTrainingHMM {
         }
         System.out.println("");
         
+        
+        //TEST
+        for (int i = 0; i < uebergaenge.length; i++) {
+            for (int j = 0; j < uebergaenge[i].length; j++) {
+                uebergangsw[i][j] = -1.0 * Math.log(uebergangsw[i][j]);
+                if (uebergangsw[i][j] <= 0) {
+                    uebergangsw[i][j] = 0.01;
+                }
+            }
+        }        
+        //TEST
+
         //Sammeln der jeweiligen Zuordnungen
         ArrayList<ArrayList<Vector>> models = new ArrayList<>(mus.length);
         for (int i = 0; i < mus.length; i++) {

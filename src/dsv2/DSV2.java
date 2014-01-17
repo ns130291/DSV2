@@ -60,7 +60,7 @@ public class DSV2 {
         ViterbiTraining viterbiTraining = new ViterbiTraining();
         viterbiTraining.train(references);*/
         
-        System.out.println("Aufgabe 4");
+        /*System.out.println("Aufgabe 4");
         
         String path2 = "C:\\Users\\ns130291\\Desktop\\Java\\DSV2\\daten2.txt";
         Input i2 = new Input();
@@ -73,7 +73,10 @@ public class DSV2 {
             System.out.println("");
         }
         ViterbiTrainingHMM viterbiTraining2 = new ViterbiTrainingHMM();
-        viterbiTraining2.train(references2);
+        viterbiTraining2.train(references2);*/
+        
+        HMM hmm = new HMM();
+        hmm.generate();
         
         //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }

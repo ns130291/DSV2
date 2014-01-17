@@ -53,14 +53,14 @@ public class ViterbiHMM {
             }
         }
         
-        System.out.println("\nRückwärtszeiger");
+        /*System.out.println("\nRückwärtszeiger");
         for(int i = 0; i < r.length; i++){
             for(int j = 0; j < r[i].length; j++){
                 System.out.print(r[i][j] + " ");
             }
             System.out.println("");
         }
-        System.out.println("");
+        System.out.println("");*/
         
         //---Rückwärtszeiger verfolgen---
         //TODO: hier
