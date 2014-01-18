@@ -10,26 +10,25 @@ import java.util.Arrays;
  */
 public class ViterbiTrainingHMM {
 
-    public void train(ArrayList<Vector[]> references, int modelLength) {
+    public VectorsDoubleArray train(ArrayList<Vector[]> references, int modelLength) {
         System.out.println("Viterbi Training HMM\n================");
         /*int[] lengths = new int[references.size()];
-        for (int i = 0; i < lengths.length; i++) {
-            lengths[i] = references.get(i).length;
-        }*/
+         for (int i = 0; i < lengths.length; i++) {
+         lengths[i] = references.get(i).length;
+         }*/
 
         //TODO: min length of array == 1
         /*Arrays.sort(lengths);
-        int median;
-        if (lengths.length % 2 == 1) {
-            median = lengths[lengths.length / 2];
-        } else {
-            median = (lengths[lengths.length / 2] + lengths[lengths.length / 2 - 1]) / 2;
-        }
-        //Aufgabenstellung sagt 4!
-        median = 4;
-        System.out.println("Median: " + median);
-        //int modelLength = median;// / 2;*/
-
+         int median;
+         if (lengths.length % 2 == 1) {
+         median = lengths[lengths.length / 2];
+         } else {
+         median = (lengths[lengths.length / 2] + lengths[lengths.length / 2 - 1]) / 2;
+         }
+         //Aufgabenstellung sagt 4!
+         median = 4;
+         System.out.println("Median: " + median);
+         //int modelLength = median;// / 2;*/
         //Lineare Zuordnung der Merkmalvektorfolgen zu den Zuständen des Modells
         ArrayList<Point[]> points = new ArrayList<>();
         int[][] uebergaenge = new int[modelLength][modelLength];
@@ -44,25 +43,25 @@ public class ViterbiTrainingHMM {
                 //int point = ((int) Math.round(slope * (i + 2))) - 1;
                 //int point = (int) Math.round(slope * (i + 1) - 1);
                 int point = (int) (slope * i);
-                if(point > (modelLength - 1)){
+                if (point > (modelLength - 1)) {
                     point = modelLength - 1;
                 }
-                if(point < 0){
+                if (point < 0) {
                     point = 0;
                 }
                 p[i] = new Point(i, point);
                 if (i > 0) {
-                    System.out.println(p[i - 1].y + " " + (p[i].y - p[i - 1].y + p[i - 1].y));
+                    //System.out.println(p[i - 1].y + " " + (p[i].y - p[i - 1].y + p[i - 1].y));
                     uebergaenge[p[i - 1].y][p[i].y - p[i - 1].y + p[i - 1].y]++;
                 }
             }
             points.add(p);
 
             //print matching
-            System.out.println("a x");
+            /*System.out.println("a x");
             for (int i = 0; i < p.length; i++) {
                 System.out.println(p[i].x + " " + p[i].y);
-            }
+            }*/
             Util.drawDiagram(p);
             System.out.println("");
         }
@@ -85,7 +84,11 @@ public class ViterbiTrainingHMM {
                 num += uebergaenge[i][j];
             }
             for (int j = 0; j < uebergaenge[i].length; j++) {
-                uebergangsw[i][j] = (double) uebergaenge[i][j] / (double) num;
+                if (num == 0) {
+                    uebergangsw[i][j] = 0.01;
+                } else {
+                    uebergangsw[i][j] = (double) uebergaenge[i][j] / (double) num;
+                }
                 if (uebergangsw[i][j] <= 0) {
                     uebergangsw[i][j] = 0.01;
                 }
@@ -134,22 +137,28 @@ public class ViterbiTrainingHMM {
 
         double sum = Double.POSITIVE_INFINITY;
         double newSum = Double.MAX_VALUE;
+        VectorsDoubleArray result = null;
         int i = 1;
         while (sum - newSum != 0) {
             sum = newSum;
+            /*if (i > 100) {
+                throw new RuntimeException("Wahrscheinlich gabs nen Fehler...");
+            }*/
             System.out.println("Schritt " + i);
             System.out.println("------------");
             i++;
-            VectorsDouble vd = iterate(mus, sigmas, references, uebergangsw);
+            VectorsDoubleArray vd = iterate(mus, sigmas, references, uebergangsw);
             mus = vd.getVectors1();
             sigmas = vd.getVectors2();
             newSum = vd.getDouble();
+            result = vd;
             System.out.println("");
         }
 
+        return result;
     }
 
-    private VectorsDouble iterate(Vector[] mus, Vector[] sigmas, ArrayList<Vector[]> references, double[][] uebergangsw) {
+    private VectorsDoubleArray iterate(Vector[] mus, Vector[] sigmas, ArrayList<Vector[]> references, double[][] uebergangsw) {
 
         ViterbiHMM viterbi = new ViterbiHMM(new LogarithmisedNormalDistributionDistance());
 
@@ -196,14 +205,18 @@ public class ViterbiTrainingHMM {
                 num += uebergaenge[i][j];
             }
             for (int j = 0; j < uebergaenge[i].length; j++) {
-                uebergangsw[i][j] = (double) uebergaenge[i][j] / (double) num;
+                if (num == 0) {
+                    uebergangsw[i][j] = 0.01;
+                } else {
+                    uebergangsw[i][j] = (double) uebergaenge[i][j] / (double) num;
+                }
                 if (uebergangsw[i][j] <= 0) {
                     uebergangsw[i][j] = 0.01;
                 }
                 /*uebergangsw[i][j] = -1.0 * Math.log(uebergangsw[i][j]);
-                if (uebergangsw[i][j] <= 0) {
-                    uebergangsw[i][j] = 0.01;
-                }*/
+                 if (uebergangsw[i][j] <= 0) {
+                 uebergangsw[i][j] = 0.01;
+                 }*/
             }
         }
         //TODO: Vermutlich noch die neuen Übergangswahrscheinlichkeiten ausrechnen
@@ -217,8 +230,7 @@ public class ViterbiTrainingHMM {
             System.out.println("");
         }
         System.out.println("");
-        
-        
+
         //TEST
         for (int i = 0; i < uebergaenge.length; i++) {
             for (int j = 0; j < uebergaenge[i].length; j++) {
@@ -227,7 +239,7 @@ public class ViterbiTrainingHMM {
                     uebergangsw[i][j] = 0.01;
                 }
             }
-        }        
+        }
         //TEST
 
         //Sammeln der jeweiligen Zuordnungen
@@ -256,6 +268,6 @@ public class ViterbiTrainingHMM {
         }
         System.out.println("Sum " + Util.r2d(sum) + "\n");
 
-        return new VectorsDouble(mus, sigmas, sum);
+        return new VectorsDoubleArray(mus, sigmas, sum, uebergangsw);
     }
 }

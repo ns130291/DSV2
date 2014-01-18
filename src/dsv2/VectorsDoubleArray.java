@@ -10,15 +10,17 @@ package dsv2;
  *
  * @author ns130291
  */
-public class VectorsDouble {
+public class VectorsDoubleArray {
     private Vector[] vectors1;
     private Vector[] vectors2;
     private double doub;
+    private double[][] array;
 
-    public VectorsDouble(Vector[] vectors1, Vector[] vectors2, double doub) {
+    public VectorsDoubleArray(Vector[] vectors1, Vector[] vectors2, double doub, double[][] array) {
         this.vectors1 = vectors1;
         this.vectors2 = vectors2;
         this.doub = doub;
+        this.array = array;
     }
 
     public Vector[] getVectors1() {
@@ -31,6 +33,10 @@ public class VectorsDouble {
 
     public double getDouble() {
         return doub;
+    }
+
+    public double[][] getArray() {
+        return array;
     }
     
     

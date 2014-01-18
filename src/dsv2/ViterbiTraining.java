@@ -83,7 +83,7 @@ public class ViterbiTraining {
             System.out.println("Schritt " + i);
             System.out.println("------------");
             i++;
-            VectorsDouble vd = iterate(mus, sigmas, references);
+            VectorsDoubleArray vd = iterate(mus, sigmas, references);
             mus = vd.getVectors1();
             sigmas = vd.getVectors2();
             newSum = vd.getDouble();
@@ -92,7 +92,7 @@ public class ViterbiTraining {
 
     }
 
-    private VectorsDouble iterate(Vector[] mus, Vector[] sigmas, ArrayList<Vector[]> references) {
+    private VectorsDoubleArray iterate(Vector[] mus, Vector[] sigmas, ArrayList<Vector[]> references) {
 
         Viterbi viterbi = new Viterbi(new SimplifiedNormalDistributionDistance());
 
@@ -140,6 +140,6 @@ public class ViterbiTraining {
         }
         System.out.println("Sum " + Util.r2d(sum) + "\n");
 
-        return new VectorsDouble(mus, sigmas, sum);
+        return new VectorsDoubleArray(mus, sigmas, sum, null);
     }
 }

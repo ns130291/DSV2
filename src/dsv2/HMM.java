@@ -22,6 +22,9 @@ public class HMM {
             double[] ref = new double[mu.length];
 
             for (int i = 0; i < mu.length; i++) {
+                
+                //TODO: vllt war das doch die richtige Richtung, nochmal ausprobieren
+                //Umrechnung von negativen Zahlen klappt auch noch nicht ganz so glaub ich
                 //ref[i] = (rand.nextGaussian() - mu[i]) / Math.sqrt(sigma[i]); --> Das war glaub die falsche Umrechnungsrichtung
                 double n = rand.nextGaussian();
                 if(n < 0){

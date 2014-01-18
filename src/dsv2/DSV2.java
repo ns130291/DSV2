@@ -94,23 +94,130 @@ public class DSV2 {
             new Vector(new double[]{2, 1, 3}),
             new Vector(new double[]{8, 1, 4}),
             new Vector(new double[]{3, 3, 3}),};
-
+/*
+        // 100 Merkmalvektorfolgen für HMM1 generieren
         ArrayList<Vector[]> refs1 = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             refs1.add(hmm.generate(modelLength, rand.nextLong(), mus1, sigmas1));
-        }        
-        
-        ArrayList<Vector[]> refs2 = new ArrayList<>();        
+        }
+        // 100 Merkmalvektorfolgen für HMM2 generieren
+        ArrayList<Vector[]> refs2 = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             refs2.add(hmm.generate(modelLength, rand.nextLong(), sigmas1, mus1));
         }
-        
-        System.out.println("refs1 size " + refs1.size());
-        System.out.println("refs2 size " + refs2.size());
-        
-        ViterbiTrainingHMM viterbiTrainingHMM = new ViterbiTrainingHMM();
-        viterbiTrainingHMM.train(refs1, modelLength);
 
+        System.out.println("refs1 size " + refs1.size());
+        System.out.println("refs2 size " + refs2.size());*/
+
+        // Aus Merkmalvektorfolgen trainieren
+        ViterbiTrainingHMM viterbiTrainingHMM = new ViterbiTrainingHMM();/*
+        VectorsDoubleArray hmm1 = viterbiTrainingHMM.train(refs1, modelLength);
+        VectorsDoubleArray hmm2 = viterbiTrainingHMM.train(refs2, modelLength);*/
+
+        // 100 Merkmalvektorfolgen von HMM1 generieren zum Testen der trainierten HMMs
+        ArrayList<Vector[]> refs11 = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            refs11.add(hmm.generate(modelLength, rand.nextLong(), mus1, sigmas1));
+        }
+        // 100 Merkmalvektorfolgen von HMM2 generieren zum Testen der trainierten HMMs
+        ArrayList<Vector[]> refs22 = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            refs22.add(hmm.generate(modelLength, rand.nextLong(), sigmas1, mus1));
+        }
+
+        ViterbiHMM viterbiHMM = new ViterbiHMM(new LogarithmisedNormalDistributionDistance());
+        /*
+        //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM1
+        ArrayList<PointsDouble> resultHMM1refs11 = new ArrayList<>();
+        ArrayList<PointsDouble> resultHMM2refs11 = new ArrayList<>();
+        for (Vector[] x : refs11) {
+            PointsDouble result1 = viterbiHMM.calc(x, hmm1.getVectors1(), hmm1.getVectors2(), hmm1.getArray());
+            PointsDouble result2 = viterbiHMM.calc(x, hmm2.getVectors1(), hmm2.getVectors2(), hmm2.getArray());
+            System.out.print("HMM1 " + Util.r2d(result1.getDouble()) + " HMM2 " + Util.r2d(result2.getDouble()));
+            if (result1.getDouble() < result2.getDouble()) {
+                System.out.println(" r = 1");
+            } else {
+                System.out.println(" r = 2");
+            }
+            resultHMM1refs11.add(result1);
+            resultHMM2refs11.add(result2);
+        }
+        
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        
+        //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM2
+        ArrayList<PointsDouble> resultHMM1refs22 = new ArrayList<>();
+        ArrayList<PointsDouble> resultHMM2refs22 = new ArrayList<>();
+        for (Vector[] x : refs22) {
+            PointsDouble result1 = viterbiHMM.calc(x, hmm1.getVectors1(), hmm1.getVectors2(), hmm1.getArray());
+            PointsDouble result2 = viterbiHMM.calc(x, hmm2.getVectors1(), hmm2.getVectors2(), hmm2.getArray());
+            System.out.print("HMM1 " + Util.r2d(result1.getDouble()) + " HMM2 " + Util.r2d(result2.getDouble()));
+            if (result1.getDouble() < result2.getDouble()) {
+                System.out.println(" r = 1");
+            } else {
+                System.out.println(" r = 2");
+            }
+            resultHMM1refs22.add(result1);
+            resultHMM2refs22.add(result2);
+        }
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");*/
+        
+        // 3 Merkmalvektorfolgen für HMM1 generieren
+        ArrayList<Vector[]> refs111 = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            refs111.add(hmm.generate(modelLength, rand.nextLong(), mus1, sigmas1));
+        }
+        // 3 Merkmalvektorfolgen für HMM2 generieren
+        ArrayList<Vector[]> refs222 = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            refs222.add(hmm.generate(modelLength, rand.nextLong(), sigmas1, mus1));
+        }
+        
+        // Aus Merkmalvektorfolgen trainieren
+        VectorsDoubleArray hmm11 = viterbiTrainingHMM.train(refs111, modelLength);
+        VectorsDoubleArray hmm22 = viterbiTrainingHMM.train(refs222, modelLength);
+        
+        //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM11
+        ArrayList<PointsDouble> resultHMM1refs11_ = new ArrayList<>();
+        ArrayList<PointsDouble> resultHMM2refs11_ = new ArrayList<>();
+        for (Vector[] x : refs11) {
+            PointsDouble result1 = viterbiHMM.calc(x, hmm11.getVectors1(), hmm11.getVectors2(), hmm11.getArray());
+            PointsDouble result2 = viterbiHMM.calc(x, hmm22.getVectors1(), hmm22.getVectors2(), hmm22.getArray());
+            System.out.print("HMM11 " + Util.r2d(result1.getDouble()) + " HMM22 " + Util.r2d(result2.getDouble()));
+            if (result1.getDouble() < result2.getDouble()) {
+                System.out.println(" r = 1");
+            } else {
+                System.out.println(" r = 2");
+            }
+            resultHMM1refs11_.add(result1);
+            resultHMM2refs11_.add(result2);
+        }
+        
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        
+        //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM22
+        ArrayList<PointsDouble> resultHMM1refs22_ = new ArrayList<>();
+        ArrayList<PointsDouble> resultHMM2refs22_ = new ArrayList<>();
+        for (Vector[] x : refs22) {
+            PointsDouble result1 = viterbiHMM.calc(x, hmm11.getVectors1(), hmm11.getVectors2(), hmm11.getArray());
+            PointsDouble result2 = viterbiHMM.calc(x, hmm22.getVectors1(), hmm22.getVectors2(), hmm22.getArray());
+            System.out.print("HMM11 " + Util.r2d(result1.getDouble()) + " HMM22 " + Util.r2d(result2.getDouble()));
+            if (result1.getDouble() < result2.getDouble()) {
+                System.out.println(" r = 1");
+            } else {
+                System.out.println(" r = 2");
+            }
+            resultHMM1refs22_.add(result1);
+            resultHMM2refs22_.add(result2);
+        }
+        
         //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }
 
