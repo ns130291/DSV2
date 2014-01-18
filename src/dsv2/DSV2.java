@@ -94,7 +94,7 @@ public class DSV2 {
             new Vector(new double[]{2, 1, 3}),
             new Vector(new double[]{8, 1, 4}),
             new Vector(new double[]{3, 3, 3}),};
-/*
+
         // 100 Merkmalvektorfolgen für HMM1 generieren
         ArrayList<Vector[]> refs1 = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -107,13 +107,13 @@ public class DSV2 {
         }
 
         System.out.println("refs1 size " + refs1.size());
-        System.out.println("refs2 size " + refs2.size());*/
+        System.out.println("refs2 size " + refs2.size());
 
         // Aus Merkmalvektorfolgen trainieren
-        ViterbiTrainingHMM viterbiTrainingHMM = new ViterbiTrainingHMM();/*
+        ViterbiTrainingHMM viterbiTrainingHMM = new ViterbiTrainingHMM();
         VectorsDoubleArray hmm1 = viterbiTrainingHMM.train(refs1, modelLength);
-        VectorsDoubleArray hmm2 = viterbiTrainingHMM.train(refs2, modelLength);*/
-
+        VectorsDoubleArray hmm2 = viterbiTrainingHMM.train(refs2, modelLength);
+        
         // 100 Merkmalvektorfolgen von HMM1 generieren zum Testen der trainierten HMMs
         ArrayList<Vector[]> refs11 = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -126,7 +126,7 @@ public class DSV2 {
         }
 
         ViterbiHMM viterbiHMM = new ViterbiHMM(new LogarithmisedNormalDistributionDistance());
-        /*
+        
         //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM1
         ArrayList<PointsDouble> resultHMM1refs11 = new ArrayList<>();
         ArrayList<PointsDouble> resultHMM2refs11 = new ArrayList<>();
@@ -165,8 +165,8 @@ public class DSV2 {
 
         System.out.println("");
         System.out.println("");
-        System.out.println("");*/
-        
+        System.out.println("");
+        /*
         // 3 Merkmalvektorfolgen für HMM1 generieren
         ArrayList<Vector[]> refs111 = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -216,7 +216,7 @@ public class DSV2 {
             }
             resultHMM1refs22_.add(result1);
             resultHMM2refs22_.add(result2);
-        }
+        }*/
         
         //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }
