@@ -45,6 +45,7 @@ public class HMM {
         }
         System.out.println("");
         
+        //Umwandlung in Array
         return refs.toArray(new Vector[1]);
     }
 }

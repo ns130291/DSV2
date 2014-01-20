@@ -110,6 +110,7 @@ public class DSV2 {
         System.out.println("refs2 size " + refs2.size());
 
         // Aus Merkmalvektorfolgen trainieren
+        // Hier Modellänge verändern bei Bedarf
         ViterbiTrainingHMM viterbiTrainingHMM = new ViterbiTrainingHMM();
         VectorsDoubleArray hmm1 = viterbiTrainingHMM.train(refs1, modelLength);
         VectorsDoubleArray hmm2 = viterbiTrainingHMM.train(refs2, modelLength);
@@ -130,6 +131,7 @@ public class DSV2 {
         //Klassifizieren der neuen 100 Merkmalvektorfolgen von HMM1
         ArrayList<PointsDouble> resultHMM1refs11 = new ArrayList<>();
         ArrayList<PointsDouble> resultHMM2refs11 = new ArrayList<>();
+        //Jede Merkmalvektorfolge klassifizieren mit den beiden trainierten HMMs
         for (Vector[] x : refs11) {
             PointsDouble result1 = viterbiHMM.calc(x, hmm1.getVectors1(), hmm1.getVectors2(), hmm1.getArray());
             PointsDouble result2 = viterbiHMM.calc(x, hmm2.getVectors1(), hmm2.getVectors2(), hmm2.getArray());
@@ -163,10 +165,14 @@ public class DSV2 {
             resultHMM2refs22.add(result2);
         }
 
+        
+        
         System.out.println("");
         System.out.println("");
         System.out.println("");
+        
         /*
+        
         // 3 Merkmalvektorfolgen für HMM1 generieren
         ArrayList<Vector[]> refs111 = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -216,8 +222,8 @@ public class DSV2 {
             }
             resultHMM1refs22_.add(result1);
             resultHMM2refs22_.add(result2);
-        }*/
-        
+        }
+        */
         //Util.muSigma(new double[]{2, 6, 1, 5, 7});
     }
 
